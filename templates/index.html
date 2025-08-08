@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Examination System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="institute-info">
+                <img id="institute-logo-preview" class="institute-logo" src="" alt="Institute Logo" style="display: none;">
+                <div>
+                    <h2 id="institute-name-display">Institute Name</h2>
+                    <p id="exam-name-display">Typing Examination</p>
+                </div>
+            </div>
+            <div id="examinee-info">
+                <p><strong>Examinee:</strong> <span id="examinee-name-display">-</span></p>
+                <p><strong>Roll No:</strong> <span id="examinee-roll-display">-</span></p>
+            </div>
+        </div>
+        
+        <h1>Typing Proficiency Examination</h1>
+        
+        <div class="exam-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <label for="institute-name">Institute Name:</label>
+                    <input type="text" id="institute-name" placeholder="Enter institute name">
+                </div>
+                <div class="info-item">
+                    <label for="exam-name">Examination Name:</label>
+                    <input type="text" id="exam-name" placeholder="Enter exam name">
+                </div>
+                <div class="info-item">
+                    <label for="institute-logo">Institute Logo:</label>
+                    <input type="file" id="institute-logo" accept="image/*">
+                </div>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <label for="examinee-name">Examinee Name:</label>
+                    <input type="text" id="examinee-name" placeholder="Your name">
+                </div>
+                <div class="info-item">
+                    <label for="examinee-roll">Roll Number:</label>
+                    <input type="text" id="examinee-roll" placeholder="Your roll number">
+                </div>
+                <div class="info-item">
+                    <label for="language-select">Language:</label>
+                    <select id="language-select">
+                        <option value="English">English</option>
+                        <option value="Bangla">Bangla</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <label for="topic-select">Topic:</label>
+                    <select id="topic-select">
+                        <option value="random">Random</option>
+                        <option value="Introduction">Introduction</option>
+                        <option value="Economy">Economy</option>
+                    </select>
+                </div>
+                <div class="info-item">
+                    <label for="time-select">Duration (seconds):</label>
+                    <input type="number" id="time-select" min="30" max="600" value="120">
+                </div>
+                <div class="info-item">
+                    <label for="text-source">Text Source:</label>
+                    <select id="text-source">
+                        <option value="predefined">Predefined Text</option>
+                        <option value="custom">Custom Text</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div id="custom-text-container" style="display: none;">
+            <label for="custom-text">Custom Text:</label>
+            <textarea id="custom-text" rows="4" style="width: 100%; padding: 10px;"></textarea>
+        </div>
+        
+        <div class="test-area">
+            <div id="sample-text">Please fill in examination details and click Start Test</div>
+            <textarea id="typing-area" rows="6" placeholder="Start typing here..." disabled></textarea>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-card">
+                <div>Time Remaining</div>
+                <div class="stat-value timer" id="timer">120s</div>
+            </div>
+            <div class="stat-card">
+                <div>Words Per Minute</div>
+                <div class="stat-value wpm" id="wpm">0</div>
+            </div>
+            <div class="stat-card">
+                <div>Accuracy</div>
+                <div class="stat-value accuracy" id="accuracy">0%</div>
+            </div>
+            <div class="stat-card">
+                <div>Characters</div>
+                <div class="stat-value" id="chars">0/0</div>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button id="start-btn">Start Test</button>
+            <button id="restart-btn" disabled>Restart Test</button>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <div class="result-header">
+                <h2>Typing Examination Result</h2>
+            </div>
+            
+            <div class="result-details">
+                <div>
+                    <div class="result-stat"><strong>Institute:</strong> <span id="result-institute"></span></div>
+                    <div class="result-stat"><strong>Examination:</strong> <span id="result-exam"></span></div>
+                    <div class="result-stat"><strong>Examinee Name:</strong> <span id="result-name"></span></div>
+                    <div class="result-stat"><strong>Roll Number:</strong> <span id="result-roll"></span></div>
+                </div>
+                
+                <div>
+                    <div class="result-stat"><strong>Date:</strong> <span id="result-date"></span></div>
+                    <div class="result-stat"><strong>WPM:</strong> <span id="result-wpm"></span></div>
+                    <div class="result-stat"><strong>Accuracy:</strong> <span id="result-accuracy"></span></div>
+                    <div class="result-stat"><strong>Result:</strong> <span id="result-status"></span></div>
+                </div>
+            </div>
+            
+            <div class="incorrect-words">
+                <h3>Word Analysis</h3>
+                <div class="result-stat"><strong>Correct Words:</strong> <span id="correct-count">0</span></div>
+                <div class="result-stat"><strong>Incorrect Words:</strong> <span id="incorrect-count">0</span></div>
+                
+                <div class="word-list" id="word-list"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="alert" id="time-alert">
+        Only 15 seconds remaining!
+    </div>
+    
+    <button id="theme-toggle">🌓</button>
+    <button id="print-btn" style="display: none; position: fixed; bottom: 80px; right: 20px;" onclick="window.print()">Print Result</button>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
